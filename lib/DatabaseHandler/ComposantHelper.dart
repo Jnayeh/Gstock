@@ -25,12 +25,15 @@ class COMPOSANTHelper {
         $description TEXT,
         $qte INTEGER,
         $cat_id INTEGER,
-        createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+        createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY ($cat_id)  REFERENCES categories (id) ON DELETE NO ACTION ON UPDATE NO ACTION
       )
       """);
   }
 
-
+  static Future _onConfigure(sql.Database db) async {
+    await db.execute('PRAGMA foreign_keys = ON');
+  }
   // id: the id of a Composant
 // title, description: name and description of your activity
 // created_at: the time that the item was created. It will be automatically handled by SQLite
@@ -44,6 +47,7 @@ class COMPOSANTHelper {
       onCreate: (sql.Database database, int version) async {
         await createTable(database);
       },
+      onConfigure: _onConfigure
     );
   }
 
@@ -70,7 +74,7 @@ class COMPOSANTHelper {
   static Future<Map<String, dynamic>?> getItem(int matricule) async {
     var db = await COMPOSANTHelper.db();
     var res = await  db.query(table, where: "matricule = ?", whereArgs: [matricule], limit: 1);
-    if (res.length > 0) {
+    if (res.isNotEmpty) {
       return res.first;
     }
   }

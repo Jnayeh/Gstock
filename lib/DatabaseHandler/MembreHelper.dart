@@ -7,7 +7,7 @@ import 'package:path/path.dart';
 import 'dart:io' as io;
 
 
-class CATEGORYHelper {
+class MEMBREHelper {
   static get table => 'membres';
   static get id => 'id';
   static get nom => 'nom';
@@ -49,7 +49,7 @@ class CATEGORYHelper {
 
   // Create new Membre
   static Future<int> createMembre(Membre membre) async {
-    final db = await CATEGORYHelper.db();
+    final db = await MEMBREHelper.db();
 
 
     final id = await db.insert(table, membre.toMap(),
@@ -59,7 +59,7 @@ class CATEGORYHelper {
 
   // Read all Membres
   static Future<List<Map<String, dynamic>>> getItems() async {
-    final db = await CATEGORYHelper.db();
+    final db = await MEMBREHelper.db();
     await createTable(db);
     return db.query(table, orderBy: id);
 
@@ -68,7 +68,7 @@ class CATEGORYHelper {
   // Read a single Membre by id
   // The app doesn't use this method but I put here in case you want to see it
   static Future<Map<String, dynamic>?> getItem(int id) async {
-    var db = await CATEGORYHelper.db();
+    var db = await MEMBREHelper.db();
     var res = await  db.query(table, where: "id = ?", whereArgs: [id], limit: 1);
     if (res.length > 0) {
       return res.first;
@@ -78,7 +78,7 @@ class CATEGORYHelper {
   // Update an Membre by id
   static Future<int> updateMembre(
       int id, Membre membre) async {
-    final db = await CATEGORYHelper.db();
+    final db = await MEMBREHelper.db();
     membre.id=id;
     final result =
     await db.update(table, membre.toMap(), where: "id = ?", whereArgs: [id]);
@@ -87,7 +87,7 @@ class CATEGORYHelper {
 
   // Delete
   static Future<void> deleteMembre(int id) async {
-    final db = await CATEGORYHelper.db();
+    final db = await MEMBREHelper.db();
     try {
       await db.delete(table, where: "id = ?", whereArgs: [id]);
     } catch (err) {

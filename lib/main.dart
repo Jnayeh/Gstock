@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:projet/Screens/ComposantScreen.dart';
 
 import 'Screens/LoginForm.dart';
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
 
         primarySwatch: Colors.blue,
       ),
-      home: LoginForm(),
+      home: ComposantScreen(),
     );
   }
 }

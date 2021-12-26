@@ -4,6 +4,8 @@ class Categorie{
 
   Categorie(this.categorie);
 
+   Categorie.id(this.id,this.categorie);
+
   Map<String,dynamic> toMap(){ // used when inserting data to the database
     return <String,dynamic>{
       "id" : id,

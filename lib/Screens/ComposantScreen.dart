@@ -1,5 +1,6 @@
 // main.dart
 import 'package:flutter/material.dart';
+import 'package:projet/DatabaseHandler/CategoryHelper.dart';
 import 'package:projet/DatabaseHandler/ComposantHelper.dart';
 import 'package:projet/Model/Composant.dart';
 
@@ -15,8 +16,10 @@ class ComposantScreen extends StatefulWidget {
 class _ComposantScreenState extends State<ComposantScreen> {
   // All journals
   List<Map<String, dynamic>> _composants = [];
-
+  List<DropdownMenuItem<String>> _categories = [];
+  Widget _selectedHint= Text("Categorie");
   bool _isLoading = true;
+
   // This function is used to fetch all data from the database
   void _refreshComposants() async {
     final data = await COMPOSANTHelper.getItems();
@@ -26,11 +29,26 @@ class _ComposantScreenState extends State<ComposantScreen> {
     });
   }
 
+  // This function is used to fetch all data from the database
+  void _getCategories() async {
+    await CATEGORYHelper.getAll().then((listMap){
+      listMap.map((map) {
+        print(map.toString());
+        return getDropDownWidget(map);
+      }).forEach((element) {
+        _categories.add(element);
+      });
+      setState(() { });
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     COMPOSANTHelper.db();
-    _refreshComposants(); // Loading the diary when the app starts
+    _refreshComposants(); // Loading the list when the app starts
+    _getCategories();
+
   }
 
   final TextEditingController _titleController = TextEditingController();
@@ -38,17 +56,21 @@ class _ComposantScreenState extends State<ComposantScreen> {
   final TextEditingController _categoryController = TextEditingController();
   final TextEditingController _quantityController = TextEditingController();
 
+
   // This function will be triggered when the floating button is pressed
   // It will also be triggered when you want to update an item
   void _showForm(int? id) async {
     if (id != null) {
       // id == null -> create new item
       // id != null -> update an existing item
-      final existingJournal =
+      final existingComposant =
           _composants.firstWhere((element) => element['matricule'] == id);
-      _titleController.text = existingJournal['nom'];
-      _descriptionController.text = existingJournal['description'];
-      _quantityController.text = existingJournal['qte'].toString();
+      _titleController.text = existingComposant['nom'];
+      _descriptionController.text = existingComposant['description'];
+      _quantityController.text = existingComposant['qte'].toString();
+      _categoryController.text = existingComposant['idCategory'].toString();
+
+      getValue(_categoryController.text);
     }
 
     showModalBottomSheet(
@@ -57,7 +79,7 @@ class _ComposantScreenState extends State<ComposantScreen> {
         builder: (_) => Container(
               padding: const EdgeInsets.all(15),
               width: double.infinity,
-              height: 300,
+              height: 400,
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -88,6 +110,31 @@ class _ComposantScreenState extends State<ComposantScreen> {
                     const SizedBox(
                       height: 20,
                     ),
+                    Center(
+                      child:DropdownButton(
+                        hint: _selectedHint,
+                        icon: const Icon(Icons.arrow_downward),
+                        elevation: 16,
+                        style: const TextStyle(color: Colors.blue ),
+                        underline: Container(
+                          height: 2,
+                          color: Colors.blueAccent,
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+
+                            getValue(value);
+                            _categoryController.text = value.toString();
+                            _quantityController.text=_quantityController.text;
+                          });
+                        },
+                        items: _categories,
+                      ),
+                    ),
+
+                    const SizedBox(
+                      height: 20,
+                    ),
                     ElevatedButton(
                       style: ButtonStyle(
                           shape:
@@ -96,7 +143,7 @@ class _ComposantScreenState extends State<ComposantScreen> {
                         borderRadius: BorderRadius.circular(16.0),
                       ))),
                       onPressed: () async {
-                        // Save new journal
+                        // Save new composant
                         if (id == null) {
                           await _addItem();
                         }
@@ -109,7 +156,8 @@ class _ComposantScreenState extends State<ComposantScreen> {
                         _titleController.text = '';
                         _descriptionController.text = '';
                         _quantityController.text = '';
-
+                        _categoryController.text= '';
+                        _selectedHint= Text("Categorie");
                         // Close the bottom sheet
                         Navigator.of(context).pop();
                       },
@@ -124,7 +172,7 @@ class _ComposantScreenState extends State<ComposantScreen> {
 // Insert a new item to the database
   Future<void> _addItem() async {
     Composant cmp = Composant(_titleController.text,
-        _descriptionController.text, int.parse(_quantityController.text));
+        _descriptionController.text, int.parse(_quantityController.text), int.parse(_categoryController.text));
     await COMPOSANTHelper.createComposant(cmp);
     _refreshComposants();
   }
@@ -132,7 +180,7 @@ class _ComposantScreenState extends State<ComposantScreen> {
   // Update an existing item
   Future<void> _updateItem(int id) async {
     Composant cmp = Composant(_titleController.text,
-        _descriptionController.text, int.parse(_quantityController.text));
+        _descriptionController.text, int.parse(_quantityController.text), int.parse(_categoryController.text));
     await COMPOSANTHelper.updateComposant(id, cmp);
     _refreshComposants();
   }
@@ -195,4 +243,25 @@ class _ComposantScreenState extends State<ComposantScreen> {
       ),
     );
   }
+
+  DropdownMenuItem<String> getDropDownWidget(Map<String, dynamic> map){
+    return DropdownMenuItem<String>(
+
+      value: map['id'].toString(),
+      child: Text(map['categorie']),
+    );
+  }
+
+  getValue(id){
+    _categories.forEach((element) {
+      if (element.value.toString()== id.toString()){
+        setState(() {
+          _selectedHint= element.child;
+          print(_selectedHint.toString());
+        });
+      }
+
+    });
+  }
+
 }

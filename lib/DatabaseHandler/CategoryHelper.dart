@@ -65,7 +65,7 @@ class CATEGORYHelper {
   static Future<Map<String, dynamic>?> getOne(int id) async {
     var db = await CATEGORYHelper.db();
     var res = await  db.query(table, where: "id = ?", whereArgs: [id], limit: 1);
-    if (res.length > 0) {
+    if (res.isNotEmpty) {
       return res.first;
     }
   }

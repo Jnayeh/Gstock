@@ -34,10 +34,6 @@ class _CategorieScreenState extends State<CategorieScreen> {
   }
 
   final TextEditingController _categorieController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _categoryController = TextEditingController();
-  final TextEditingController _tel1Controller = TextEditingController();
-  final TextEditingController _tel2Controller = TextEditingController();
 
   // This function will be triggered when the floating button is pressed
   // It will also be triggered when you want to update an item
@@ -56,7 +52,7 @@ class _CategorieScreenState extends State<CategorieScreen> {
         builder: (_) => Container(
               padding: const EdgeInsets.all(15),
               width: double.infinity,
-              height: 200,
+              height: 170,
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -70,7 +66,7 @@ class _CategorieScreenState extends State<CategorieScreen> {
                       decoration: const InputDecoration(hintText: 'Categorie'),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
                     ElevatedButton(
                       style: ButtonStyle(

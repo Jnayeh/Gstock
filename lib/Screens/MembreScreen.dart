@@ -19,7 +19,7 @@ class _MembreScreenState extends State<MembreScreen> {
   bool _isLoading = true;
   // This function is used to fetch all data from the database
   void _refreshMembres() async {
-    final data = await CATEGORYHelper.getItems();
+    final data = await MEMBREHelper.getItems();
     setState(() {
       _membres = data;
       _isLoading = false;
@@ -29,13 +29,12 @@ class _MembreScreenState extends State<MembreScreen> {
   @override
   void initState() {
     super.initState();
-    CATEGORYHelper.db();
+    MEMBREHelper.db();
     _refreshMembres(); // Loading the diary when the app starts
   }
 
   final TextEditingController _nomController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _categoryController = TextEditingController();
   final TextEditingController _tel1Controller = TextEditingController();
   final TextEditingController _tel2Controller = TextEditingController();
 
@@ -59,7 +58,7 @@ class _MembreScreenState extends State<MembreScreen> {
         builder: (_) => Container(
               padding: const EdgeInsets.all(15),
               width: double.infinity,
-              height: 400,
+              height: 350,
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -80,7 +79,7 @@ class _MembreScreenState extends State<MembreScreen> {
                       decoration: const InputDecoration(hintText: 'email'),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     TextField(
                         controller: _tel1Controller,
@@ -88,7 +87,7 @@ class _MembreScreenState extends State<MembreScreen> {
                             hintText: 'Numéro téléphone 1'),
                         keyboardType: TextInputType.number),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     TextField(
                         controller: _tel2Controller,
@@ -134,23 +133,40 @@ class _MembreScreenState extends State<MembreScreen> {
 
 // Insert a new membre to the database
   Future<void> _addMembre() async {
-    Membre mbr = Membre(_nomController.text, _emailController.text,
-        int.parse(_tel1Controller.text), int.parse(_tel2Controller.text));
-    await CATEGORYHelper.createMembre(mbr);
+
+    if(_tel2Controller.text != null){
+      Membre mbr = Membre(_nomController.text, _emailController.text,
+          int.parse(_tel1Controller.text),null);
+      await MEMBREHelper.createMembre(mbr);
+    }
+    else{
+      Membre mbr = Membre(_nomController.text, _emailController.text,
+          int.parse(_tel1Controller.text), int.parse(_tel2Controller.text));
+      await MEMBREHelper.createMembre(mbr);
+    }
+
     _refreshMembres();
   }
 
   // Update an existing membre
   Future<void> _updateMembre(int id) async {
-    Membre mbr = Membre(_nomController.text, _emailController.text,
-        int.parse(_tel1Controller.text), int.parse(_tel2Controller.text));
-    await CATEGORYHelper.updateMembre(id, mbr);
+    if(_tel2Controller.text != null){
+      Membre mbr = Membre(_nomController.text, _emailController.text,
+          int.parse(_tel1Controller.text),null);
+      await MEMBREHelper.updateMembre(id, mbr);
+    }
+    else{
+      Membre mbr = Membre(_nomController.text, _emailController.text,
+          int.parse(_tel1Controller.text), int.parse(_tel2Controller.text));
+      await MEMBREHelper.updateMembre(id, mbr);
+    }
+
     _refreshMembres();
   }
 
   // Delete a membre
   void _deleteMembre(int id) async {
-    await CATEGORYHelper.deleteMembre(id);
+    await MEMBREHelper.deleteMembre(id);
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text('Successfully deleted a member!'),
     ));

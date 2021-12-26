@@ -42,7 +42,7 @@ class MyDrawer extends StatelessWidget {
               style: TextStyle(fontSize: 15),
             ),
             leading: Icon(
-              Icons.view_list,
+              Icons.assignment_ind ,
               color: Colors.blueAccent,
             ),
             trailing: Icon(
@@ -64,7 +64,7 @@ class MyDrawer extends StatelessWidget {
               style: TextStyle(fontSize: 15),
             ),
             leading: Icon(
-              Icons.view_list,
+              Icons.category,
               color: Colors.blueAccent,
             ),
             trailing: Icon(

@@ -5,7 +5,7 @@ class Composant{
   int? qte;
   int? idCategory;
 
-  Composant(this.nom,this.description,this.qte);
+  Composant(this.nom,this.description,this.qte,this.idCategory);
 
   Map<String,dynamic> toMap(){ // used when inserting data to the database
     return <String,dynamic>{

@@ -154,7 +154,7 @@ class _SignupFormState extends State<SignupForm> {
                                 MaterialPageRoute(builder: (_) => LoginForm()),
                                 (Route<dynamic> route) => false);
                           },
-                          child: Text('Sign Ip'),
+                          child: Text('Sign In'),
                         )
                       ],
                     ),
