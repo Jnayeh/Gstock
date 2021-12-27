@@ -71,14 +71,7 @@ class _ComposantScreenState extends State<ComposantScreen> {
         builder: (BuildContext context) {
           return BottomSheet(
             onClosing: () {
-              setState(() {
-                // Clear the text fields
-                _titleController.text = '';
-                _descriptionController.text = '';
-                _quantityController.text = '';
-                _categoryController.text = '';
-                _selectedHint = Text("Categorie");
-              });
+
             },
             builder: (BuildContext context) {
 
@@ -163,12 +156,7 @@ class _ComposantScreenState extends State<ComposantScreen> {
                             if (id != null) {
                               await _updateItem(id);
                             }
-                            // Clear the text fields
-                            _titleController.text = '';
-                            _descriptionController.text = '';
-                            _quantityController.text = '';
-                            _categoryController.text = '';
-                            _selectedHint = Text("Categorie");
+
                             // Close the bottom sheet
                             Navigator.of(context).pop();
                           },
@@ -178,11 +166,19 @@ class _ComposantScreenState extends State<ComposantScreen> {
                     ),
                   ),
                 ));
-
             },
           );
         },
-    );
+    ).whenComplete(() {
+      setState(() {
+        // Clear the text fields
+        _titleController.text = '';
+        _descriptionController.text = '';
+        _quantityController.text = '';
+        _categoryController.text = '';
+        _selectedHint = Text("Categorie");
+      });
+    });
   }
 
 // Insert a new item to the database
@@ -279,7 +275,6 @@ class _ComposantScreenState extends State<ComposantScreen> {
     _categories.forEach((element) {
       if (element['id'].toString() == id.toString()) {
         _selectedHint = Text(element['categorie']);
-        print(_selectedHint.toString());
       }
     });
   }
