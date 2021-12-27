@@ -61,7 +61,7 @@ class COMPOSANTHelper {
     return id;
   }
 
-  // Read all Composant (journals)
+  // Read all Composants (journals)
   static Future<List<Map<String, dynamic>>> getItems() async {
     final db = await COMPOSANTHelper.db();
     await createTable(db);
@@ -79,7 +79,7 @@ class COMPOSANTHelper {
     }
   }
 
-  // Update an Composant by id
+  // Update a Composant by id
   static Future<int> updateComposant(
       int matricule, Composant composant) async {
     final db = await COMPOSANTHelper.db();
