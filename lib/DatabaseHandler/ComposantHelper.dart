@@ -1,7 +1,7 @@
 
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
-import 'package:projet/Model/Composant.dart';
+import 'package:gstock/Model/Composant.dart';
 import 'package:sqflite/sqflite.dart' as sql ;
 import 'package:path/path.dart';
 import 'dart:io' as io;
@@ -71,12 +71,13 @@ class COMPOSANTHelper {
 
   // Read a single Composant by id
   // The app doesn't use this method but I put here in case you want to see it
-  static Future<Map<String, dynamic>?> getItem(int matricule) async {
+  static Future<Composant?>? getItem(int matricule) async {
     var db = await COMPOSANTHelper.db();
     var res = await  db.query(table, where: "matricule = ?", whereArgs: [matricule], limit: 1);
     if (res.isNotEmpty) {
-      return res.first;
+      return Composant.fromMap(res.first);
     }
+    return null;
   }
 
   // Update a Composant by id

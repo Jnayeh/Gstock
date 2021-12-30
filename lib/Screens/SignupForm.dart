@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:projet/Comm/comHelper.dart';
-import 'package:projet/Comm/getTextFormFiled.dart';
-import 'package:projet/DatabaseHandler/DbHelper.dart';
-import 'package:projet/Model/Admin.dart';
-import 'package:projet/Screens/LoginForm.dart';
+import 'package:gstock/Comm/comHelper.dart';
+import 'package:gstock/Comm/getTextFormFiled.dart';
+import 'package:gstock/DatabaseHandler/DbHelper.dart';
+import 'package:gstock/Model/Admin.dart';
+import 'package:gstock/Screens/LoginForm.dart';
 import 'package:toast/toast.dart';
 
 class SignupForm extends StatefulWidget {

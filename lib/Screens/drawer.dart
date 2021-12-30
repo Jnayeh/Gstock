@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:projet/Screens/CategoryScreen.dart';
-import 'package:projet/Screens/LoginForm.dart';
-import 'package:projet/Screens/MembreScreen.dart';
+import 'package:gstock/Screens/CategoryScreen.dart';
+import 'package:gstock/Screens/ComposantARetourScreen.dart';
+import 'package:gstock/Screens/EmpruntScreen.dart';
+import 'package:gstock/Screens/LoginForm.dart';
+import 'package:gstock/Screens/MembreScreen.dart';
 
 import 'ComposantScreen.dart';
 import 'HomeForm.dart';
@@ -96,6 +98,50 @@ class MyDrawer extends StatelessWidget {
             onTap: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (_) => ComposantScreen()));
+            },
+          ),
+          Divider(
+            height: 5,
+            color: Colors.grey,
+          ),
+          ListTile(
+            title: Text(
+              "Emprunts",
+              style: TextStyle(fontSize: 15),
+            ),
+            leading: Icon(
+              Icons.wysiwyg,
+              color: Colors.blueAccent,
+            ),
+            trailing: Icon(
+              Icons.arrow_right,
+              color: Colors.grey,
+            ),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (_) => EmpruntScreen()));
+            },
+          ),
+          Divider(
+            height: 5,
+            color: Colors.grey,
+          ),
+          ListTile(
+            title: Text(
+              "Composants à retour",
+              style: TextStyle(fontSize: 15),
+            ),
+            leading: Icon(
+              Icons.web_outlined,
+              color: Colors.blueAccent,
+            ),
+            trailing: Icon(
+              Icons.arrow_right,
+              color: Colors.grey,
+            ),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (_) => ComposantARetourScreen()));
             },
           ),
           Divider(

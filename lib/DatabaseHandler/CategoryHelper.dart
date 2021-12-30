@@ -1,7 +1,7 @@
 
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
-import 'package:projet/Model/Categorie.dart';
+import 'package:gstock/Model/Categorie.dart';
 import 'package:sqflite/sqflite.dart' as sql ;
 import 'package:path/path.dart';
 import 'dart:io' as io;

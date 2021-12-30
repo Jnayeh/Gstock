@@ -1,7 +1,7 @@
 
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
-import 'package:projet/Model/Membre.dart';
+import 'package:gstock/Model/Membre.dart';
 import 'package:sqflite/sqflite.dart' as sql ;
 import 'package:path/path.dart';
 import 'dart:io' as io;
@@ -50,7 +50,6 @@ class MEMBREHelper {
   // Create new Membre
   static Future<int> createMembre(Membre membre) async {
     final db = await MEMBREHelper.db();
-
 
     final id = await db.insert(table, membre.toMap(),
         conflictAlgorithm: sql.ConflictAlgorithm.replace);

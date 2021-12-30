@@ -1,7 +1,7 @@
 // main.dart
 import 'package:flutter/material.dart';
-import 'package:projet/DatabaseHandler/CategoryHelper.dart';
-import 'package:projet/Model/Categorie.dart';
+import 'package:gstock/DatabaseHandler/CategoryHelper.dart';
+import 'package:gstock/Model/Categorie.dart';
 
 import 'drawer.dart';
 
@@ -24,6 +24,54 @@ class _CategorieScreenState extends State<CategorieScreen> {
       _categories = data;
       _isLoading = false;
     });
+  }
+
+// Insert a new Categorie to the database
+  Future<void> _add() async {
+    Categorie cat = Categorie(_categorieController.text);
+    if (cat.categorie == '') {
+      DialogError();
+    } else {
+      await CATEGORYHelper.create(cat);
+      _refreshCategories();
+      // Close the bottom sheet
+      Navigator.of(context).pop();
+    }
+  }
+  // Error Dialog
+  DialogError(){
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Erreur!!"),
+            content: Text('Category must have a name!'),
+            elevation: 10,
+          );
+        });
+  }
+
+  // Update an existing Categorie
+  Future<void> _update(int id) async {
+    Categorie cat = Categorie(_categorieController.text);
+    if (cat.categorie == '') {
+      DialogError();
+    } else {
+      await CATEGORYHelper.update(id, cat);
+      _refreshCategories();
+      // Close the bottom sheet
+      Navigator.of(context).pop();
+    }
+
+  }
+
+  // Delete a Categorie
+  void _delete(int id) async {
+    await CATEGORYHelper.delete(id);
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text('Successfully deleted !'),
+    ));
+    _refreshCategories();
   }
 
   @override
@@ -88,8 +136,7 @@ class _CategorieScreenState extends State<CategorieScreen> {
                         // Clear the text fields
                         _categorieController.text = '';
 
-                        // Close the bottom sheet
-                        Navigator.of(context).pop();
+
                       },
                       child: Text(id == null ? 'Create New' : 'Update'),
                     )
@@ -97,29 +144,6 @@ class _CategorieScreenState extends State<CategorieScreen> {
                 ),
               ),
             ));
-  }
-
-// Insert a new Categorie to the database
-  Future<void> _add() async {
-    Categorie cat = Categorie(_categorieController.text);
-    await CATEGORYHelper.create(cat);
-    _refreshCategories();
-  }
-
-  // Update an existing Categorie
-  Future<void> _update(int id) async {
-    Categorie cat = Categorie(_categorieController.text);
-    await CATEGORYHelper.update(id, cat);
-    _refreshCategories();
-  }
-
-  // Delete a Categorie
-  void _delete(int id) async {
-    await CATEGORYHelper.delete(id);
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text('Successfully deleted !'),
-    ));
-    _refreshCategories();
   }
 
   @override

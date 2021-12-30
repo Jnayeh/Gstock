@@ -1,7 +1,7 @@
 // main.dart
 import 'package:flutter/material.dart';
-import 'package:projet/DatabaseHandler/MembreHelper.dart';
-import 'package:projet/Model/Membre.dart';
+import 'package:gstock/DatabaseHandler/MembreHelper.dart';
+import 'package:gstock/Model/Membre.dart';
 
 import 'drawer.dart';
 
@@ -24,6 +24,91 @@ class _MembreScreenState extends State<MembreScreen> {
       _membres = data;
       _isLoading = false;
     });
+  }
+
+  // Error Dialog
+  DialogError() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Erreur!!"),
+            content: Text(
+                'Membre must have a name, an email and the first phone nuumber!'),
+            elevation: 10,
+          );
+        });
+  }
+
+// Insert a new membre to the database
+  Future<void> _addMembre() async {
+    if (_tel2Controller.text == '') {
+      if (_nomController.text == '' ||
+          _emailController.text == '' ||
+          _tel1Controller.text == '') {
+        DialogError();
+      } else {
+        Membre mbr = Membre(_nomController.text, _emailController.text,
+            int.parse(_tel1Controller.text), null);
+        await MEMBREHelper.createMembre(mbr);
+        // Close the bottom sheet
+        Navigator.of(context).pop();
+      }
+    } else {
+      if (_nomController.text == '' ||
+          _emailController.text == '' ||
+          _tel1Controller.text == '') {
+        DialogError();
+      } else {
+        Membre mbr = Membre(_nomController.text, _emailController.text,
+            int.parse(_tel1Controller.text), int.parse(_tel2Controller.text));
+        await MEMBREHelper.createMembre(mbr);
+        // Close the bottom sheet
+        Navigator.of(context).pop();
+      }
+    }
+
+    _refreshMembres();
+  }
+
+  // Update an existing membre
+  Future<void> _updateMembre(int id) async {
+    if (_tel2Controller.text == '') {
+      if (_nomController.text == '' ||
+          _emailController.text == '' ||
+          _tel1Controller.text == '') {
+        DialogError();
+      } else {
+        Membre mbr = Membre(_nomController.text, _emailController.text,
+            int.parse(_tel1Controller.text), null);
+        await MEMBREHelper.updateMembre(id, mbr);
+        // Close the bottom sheet
+        Navigator.of(context).pop();
+      }
+    } else {
+      if (_nomController.text == '' ||
+          _emailController.text == '' ||
+          _tel1Controller.text == '') {
+        DialogError();
+      } else {
+        Membre mbr = Membre(_nomController.text, _emailController.text,
+            int.parse(_tel1Controller.text), int.parse(_tel2Controller.text));
+        await MEMBREHelper.updateMembre(id, mbr);
+        // Close the bottom sheet
+        Navigator.of(context).pop();
+      }
+    }
+
+    _refreshMembres();
+  }
+
+  // Delete a membre
+  void _deleteMembre(int id) async {
+    await MEMBREHelper.deleteMembre(id);
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text('Successfully deleted a member!'),
+    ));
+    _refreshMembres();
   }
 
   @override
@@ -49,7 +134,9 @@ class _MembreScreenState extends State<MembreScreen> {
       _nomController.text = existingMembre['nom'];
       _emailController.text = existingMembre['email'];
       _tel1Controller.text = existingMembre['telephone_1'].toString();
-      _tel2Controller.text = existingMembre['telephone_2'].toString();
+      existingMembre['telephone_2'] != null
+          ? _tel2Controller.text = existingMembre['telephone_2'].toString()
+          : _tel2Controller.text;
     }
 
     showModalBottomSheet(
@@ -84,7 +171,7 @@ class _MembreScreenState extends State<MembreScreen> {
                     TextField(
                         controller: _tel1Controller,
                         decoration: const InputDecoration(
-                            hintText: 'Numéro téléphone 1'),
+                            hintText: '1er Numéro téléphone '),
                         keyboardType: TextInputType.number),
                     const SizedBox(
                       height: 10,
@@ -92,7 +179,7 @@ class _MembreScreenState extends State<MembreScreen> {
                     TextField(
                         controller: _tel2Controller,
                         decoration: const InputDecoration(
-                            hintText: 'Numéro téléphone 2'),
+                            hintText: '2eme Numéro téléphone '),
                         keyboardType: TextInputType.number),
                     const SizedBox(
                       height: 20,
@@ -113,64 +200,19 @@ class _MembreScreenState extends State<MembreScreen> {
                         if (id != null) {
                           await _updateMembre(id);
                         }
-
-                        // Clear the text fields
-                        _nomController.text = '';
-                        _emailController.text = '';
-                        _tel1Controller.text = '';
-                        _tel2Controller.text = '';
-
-                        // Close the bottom sheet
-                        Navigator.of(context).pop();
                       },
                       child: Text(id == null ? 'Create New' : 'Update'),
                     )
                   ],
                 ),
               ),
-            ));
-  }
-
-// Insert a new membre to the database
-  Future<void> _addMembre() async {
-
-    if(_tel2Controller.text != null){
-      Membre mbr = Membre(_nomController.text, _emailController.text,
-          int.parse(_tel1Controller.text),null);
-      await MEMBREHelper.createMembre(mbr);
-    }
-    else{
-      Membre mbr = Membre(_nomController.text, _emailController.text,
-          int.parse(_tel1Controller.text), int.parse(_tel2Controller.text));
-      await MEMBREHelper.createMembre(mbr);
-    }
-
-    _refreshMembres();
-  }
-
-  // Update an existing membre
-  Future<void> _updateMembre(int id) async {
-    if(_tel2Controller.text != null){
-      Membre mbr = Membre(_nomController.text, _emailController.text,
-          int.parse(_tel1Controller.text),null);
-      await MEMBREHelper.updateMembre(id, mbr);
-    }
-    else{
-      Membre mbr = Membre(_nomController.text, _emailController.text,
-          int.parse(_tel1Controller.text), int.parse(_tel2Controller.text));
-      await MEMBREHelper.updateMembre(id, mbr);
-    }
-
-    _refreshMembres();
-  }
-
-  // Delete a membre
-  void _deleteMembre(int id) async {
-    await MEMBREHelper.deleteMembre(id);
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text('Successfully deleted a member!'),
-    ));
-    _refreshMembres();
+            )).whenComplete(() {
+      // Clear the text fields
+      _nomController.text = '';
+      _emailController.text = '';
+      _tel1Controller.text = '';
+      _tel2Controller.text = '';
+    });
   }
 
   @override
@@ -196,10 +238,13 @@ class _MembreScreenState extends State<MembreScreen> {
                     title: Text(_membres[index]['nom'] +
                         "\n" +
                         _membres[index]['email']),
-                    subtitle: Text(" Premier numéro: " +
-                        _membres[index]['telephone_1'].toString() +
-                        "\n Deuxième numéro: " +
-                        _membres[index]['telephone_2'].toString()),
+                    subtitle: _membres[index]['telephone_2'] != null
+                        ? Text(" Premier numéro: " +
+                            _membres[index]['telephone_1'].toString() +
+                            "\n Deuxième numéro: " +
+                            _membres[index]['telephone_2'].toString())
+                        : Text(" Premier numéro: " +
+                            _membres[index]['telephone_1'].toString()),
                     trailing: SizedBox(
                       width: 100,
                       child: Row(

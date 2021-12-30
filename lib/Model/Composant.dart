@@ -16,4 +16,12 @@ class Composant{
       "idCategory" : idCategory,
     };
   }
+
+  Composant.fromMap(Map<String, dynamic> map) {
+    matricule = (map['matricule']) as int;
+    nom = map['nom'];
+    description = map['description'];
+    qte = map['qte'] as int ;
+    idCategory = map['idCategory'] as int ;
+  }
 }

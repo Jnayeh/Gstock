@@ -1,8 +1,8 @@
 
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
-import 'package:projet/Model/Categorie.dart';
-import 'package:projet/Model/Emprunt.dart';
+import 'package:gstock/Model/Categorie.dart';
+import 'package:gstock/Model/Emprunt.dart';
 import 'package:sqflite/sqflite.dart' as sql ;
 import 'package:path/path.dart';
 import 'dart:io' as io;
@@ -18,9 +18,9 @@ class EMPRUNTHelper {
 
     await database.execute("""CREATE TABLE IF NOT EXISTS $table (
         $id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-        
+        $idMembre INTEGER,
         createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        $idMembre INTEGER FOREIGN KEY  REFERENCES membres (id) ON DELETE NO ACTION ON UPDATE NO ACTION
+        FOREIGN KEY ($idMembre) REFERENCES membres (id) ON DELETE NO ACTION ON UPDATE NO ACTION
       )
       """);
   }

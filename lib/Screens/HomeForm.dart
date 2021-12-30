@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:projet/Screens/ComposantScreen.dart';
+import 'package:gstock/Screens/ComposantScreen.dart';
 
 import 'drawer.dart';
 
