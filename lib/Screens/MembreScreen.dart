@@ -111,6 +111,23 @@ class _MembreScreenState extends State<MembreScreen> {
     _refreshMembres();
   }
 
+  String validateTel(String value) {
+    if (value.length != 0 && value.length != 8)
+      return 'Mobile Number must be of 8 digits';
+    else
+      return '';
+  }
+
+  String validateEmail(String value) {
+    String pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(value))
+      return 'Enter Valid Email';
+    else
+      return '';
+  }
+
   @override
   void initState() {
     super.initState();
@@ -165,6 +182,13 @@ class _MembreScreenState extends State<MembreScreen> {
                       controller: _emailController,
                       decoration: const InputDecoration(hintText: 'email'),
                     ),
+                    Text(
+                      validateEmail(_emailController.text),
+                      style: TextStyle(
+                        fontSize: 5,
+                        color: Colors.red,
+                      ),
+                    ),
                     const SizedBox(
                       height: 10,
                     ),
@@ -173,6 +197,13 @@ class _MembreScreenState extends State<MembreScreen> {
                         decoration: const InputDecoration(
                             hintText: '1er Numéro téléphone '),
                         keyboardType: TextInputType.number),
+                    Text(
+                      validateTel(_tel1Controller.text),
+                      style: TextStyle(
+                        fontSize: 5,
+                        color: Colors.red,
+                      ),
+                    ),
                     const SizedBox(
                       height: 10,
                     ),
@@ -181,6 +212,13 @@ class _MembreScreenState extends State<MembreScreen> {
                         decoration: const InputDecoration(
                             hintText: '2eme Numéro téléphone '),
                         keyboardType: TextInputType.number),
+                    Text(
+                      validateTel(_tel1Controller.text),
+                      style: TextStyle(
+                        fontSize: 5,
+                        color: Colors.red,
+                      ),
+                    ),
                     const SizedBox(
                       height: 20,
                     ),

@@ -7,6 +7,7 @@ import 'package:gstock/Screens/MembreScreen.dart';
 
 import 'ComposantScreen.dart';
 import 'HomeForm.dart';
+import 'RetourScreen.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({Key? key}) : super(key: key);
@@ -44,7 +45,7 @@ class MyDrawer extends StatelessWidget {
               style: TextStyle(fontSize: 15),
             ),
             leading: Icon(
-              Icons.assignment_ind ,
+              Icons.assignment_ind,
               color: Colors.blueAccent,
             ),
             trailing: Icon(
@@ -118,8 +119,8 @@ class MyDrawer extends StatelessWidget {
               color: Colors.grey,
             ),
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (_) => EmpruntScreen()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => EmpruntScreen()));
             },
           ),
           Divider(
@@ -142,6 +143,24 @@ class MyDrawer extends StatelessWidget {
             onTap: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (_) => ComposantARetourScreen()));
+            },
+          ),
+          Divider(
+            height: 5,
+            color: Colors.grey,
+          ),
+          ListTile(
+            title: Text(
+              "Retour",
+              style: TextStyle(fontSize: 15),
+            ),
+            leading: Icon(
+              Icons.logout_rounded,
+              color: Colors.red,
+            ),
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => RetourScrean()));
             },
           ),
           Divider(
