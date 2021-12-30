@@ -568,7 +568,7 @@ class _EmpruntScreenState extends State<EmpruntScreen> {
                 color: Colors.grey[300],
                 margin: const EdgeInsets.all(10),
                 child: ListTile(
-                    title: Text("Membre: " +
+                    title: Text(_emprunts[index]['id'].toString()+" - Membre: " +
                         getMembreName(_emprunts[index]['idMembre']).toString()),
                     trailing: SizedBox(
                       width: 100,

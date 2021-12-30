@@ -50,6 +50,7 @@ class _ComposantARetourScreenState extends State<ComposantARetourScreen> {
       _emprunt_composants = data;
       _isLoading = false;
     });
+
   }
 
   // fetch all Membres from the database
@@ -178,7 +179,7 @@ class _ComposantARetourScreenState extends State<ComposantARetourScreen> {
 
                                 Chip( label: Text("Premier numéro: "+_existingMembre['telephone_1'].toString()),),
 
-                                _existingMembre['telephone_2']!=null ? Chip( label: Text("Deuxième numéro:: "+_existingMembre['tel_2'].toString()),) : Text(""),
+                                _existingMembre['telephone_2']!=null ? Chip( label: Text("Deuxième numéro:: "+_existingMembre['telephone_2'].toString()),) : Text(""),
 
 
                               ],

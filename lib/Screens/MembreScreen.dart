@@ -166,7 +166,7 @@ class _MembreScreenState extends State<MembreScreen> {
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(
                       height: 10,
@@ -185,7 +185,7 @@ class _MembreScreenState extends State<MembreScreen> {
                     Text(
                       validateEmail(_emailController.text),
                       style: TextStyle(
-                        fontSize: 5,
+                        fontSize: 14,
                         color: Colors.red,
                       ),
                     ),
@@ -200,7 +200,7 @@ class _MembreScreenState extends State<MembreScreen> {
                     Text(
                       validateTel(_tel1Controller.text),
                       style: TextStyle(
-                        fontSize: 5,
+                        fontSize: 14,
                         color: Colors.red,
                       ),
                     ),
@@ -213,9 +213,9 @@ class _MembreScreenState extends State<MembreScreen> {
                             hintText: '2eme Numéro téléphone '),
                         keyboardType: TextInputType.number),
                     Text(
-                      validateTel(_tel1Controller.text),
+                      validateTel(_tel2Controller.text),
                       style: TextStyle(
-                        fontSize: 5,
+                        fontSize: 14,
                         color: Colors.red,
                       ),
                     ),

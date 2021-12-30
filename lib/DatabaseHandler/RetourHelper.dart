@@ -1,3 +1,5 @@
+
+import 'package:gstock/Model/Composant.dart';
 import 'package:gstock/Model/Retour.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
@@ -5,10 +7,12 @@ import 'package:sqflite/sqflite.dart' as sql ;
 import 'package:path/path.dart';
 import 'dart:io' as io;
 
+import 'ComposantHelper.dart';
+
 class RetourHelper {
   static get table => 'retours';
   static get id => 'id';
-  //atic get dateRetour => 'dateRetour';
+  static get dateRetour => 'dateRetour';
   static get etat => 'etat';
   static get qte => 'qte';
   static get idMembre => 'idMembre';
@@ -23,7 +27,7 @@ class RetourHelper {
         $qte INTEGER,
         $idMembre INTEGER,
         $idComposant INTEGER,
-        dateRetour DATE DEFAULT (datetime('now','localtime')),
+        $dateRetour DATE DEFAULT (datetime('now','localtime')),
        
         FOREIGN KEY ($idMembre)  REFERENCES membres (id) ON DELETE NO ACTION ON UPDATE NO ACTION
         FOREIGN KEY ($idComposant)  REFERENCES composants (matricule) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -51,17 +55,6 @@ class RetourHelper {
     );
   }
 
-
-  // Create new Composant (journal)
-  static Future<int> createRetour(Retour retour) async {
-    final db = await RetourHelper.db();
-
-
-    final id = await db.insert(table, retour.toMap(),
-        conflictAlgorithm: sql.ConflictAlgorithm.replace);
-    return id;
-  }
-
   // Read all Composants (journals)
   static Future<List<Map<String, dynamic>>> getItems() async {
     final db = await RetourHelper.db();
@@ -80,13 +73,41 @@ class RetourHelper {
     }
   }
 
+  // Create new Composant (journal)
+  static Future<int> createRetour(Retour retour) async {
+
+    final db = await RetourHelper.db();
+    retour.dateRetour= DateTime.now().toString();
+
+    retour.dateRetour= retour.dateRetour!.substring(0,16);
+    Composant? composant = await COMPOSANTHelper.getItem(retour.idComposant!) ;
+    if(composant!= null){
+      composant.qte= composant.qte! + retour.qte!;
+    }
+    final id = await db.insert(table, retour.toMap(),
+        conflictAlgorithm: sql.ConflictAlgorithm.replace);
+    COMPOSANTHelper.updateComposant(composant!.matricule!, composant);
+
+    return id;
+  }
+
   // Update a Composant by id
   static Future<int> updateRetour(
       int id, Retour retour) async {
     final db = await RetourHelper.db();
+    //Change quantity in Composant Table
+    Map<String, dynamic>? ret = await RetourHelper.getItem(id);
+    Composant? composant = await COMPOSANTHelper.getItem(ret!['idComposant']!) ;
+    if(composant!= null && ret!= null ){
+      int diff = ret['qte'] - retour.qte;
+      composant.qte= (composant.qte! - diff) as int;
+    }
+
     retour.id=id;
     final result =
     await db.update(table, retour.toMap(), where: "id = ?", whereArgs: [id]);
+    //If update successful then update composant
+    COMPOSANTHelper.updateComposant(composant!.matricule!, composant);
     return result;
   }
 
@@ -94,7 +115,15 @@ class RetourHelper {
   static Future<void> deleteRetour(int id) async {
     final db = await RetourHelper.db();
     try {
+      Map<String, dynamic>? rtr = await RetourHelper.getItem(id);
+
       await db.delete(table, where: "id = ?", whereArgs: [id]);
+      Composant? composant = await COMPOSANTHelper.getItem(rtr!['idComposant']!) ;
+      if(composant!= null && rtr!= null ) {
+        composant.qte = (composant.qte! - rtr[qte]!) as int;
+        //If deleated successfully then updated composant
+        COMPOSANTHelper.updateComposant(composant.matricule!, composant);
+      }
     } catch (err) {
       debugPrint("Something went wrong when deleting an item: $err");
     }

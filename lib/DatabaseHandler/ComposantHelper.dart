@@ -55,7 +55,6 @@ class COMPOSANTHelper {
   static Future<int> createComposant(Composant composant) async {
     final db = await COMPOSANTHelper.db();
 
-
     final id = await db.insert(table, composant.toMap(),
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
     return id;

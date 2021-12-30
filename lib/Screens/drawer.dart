@@ -155,8 +155,8 @@ class MyDrawer extends StatelessWidget {
               style: TextStyle(fontSize: 15),
             ),
             leading: Icon(
-              Icons.logout_rounded,
-              color: Colors.red,
+              Icons.print,
+              color: Colors.blueAccent,
             ),
             onTap: () {
               Navigator.push(

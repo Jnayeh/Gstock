@@ -70,6 +70,15 @@ class COMPOSANT_EMPRUNTHelper {
 
   }
 
+  // Read all emprunts By ID
+  static Future<List<Map<String, dynamic>>> getAllEmprunt() async {
+    final db = await COMPOSANT_EMPRUNTHelper.db();
+    /*db.execute("DROP TABLE $table;");*/
+
+    return  await db.rawQuery("SELECT ES.id,ES.qte, idComposant, idEmprunt, idMembre FROM $table ES, emprunts E  WHERE ES.idEmprunt = E.id ;");
+
+  }
+
   // Read a single emprunt by id
   // The app doesn't use this method but I put here in case you want to see it
   static Future<Map<String, dynamic>?> getOne(int id) async {
@@ -89,6 +98,7 @@ class COMPOSANT_EMPRUNTHelper {
     }
     final id = await db.insert(table, emprunt.toMap(),
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
+    //If created successfully then composant is updated
     COMPOSANTHelper.updateComposant(composant!.matricule!, composant);
     return id;
   }
@@ -103,12 +113,12 @@ class COMPOSANT_EMPRUNTHelper {
     if(composant!= null && emt!= null ){
       int diff = emt['qte'] - emprunt.qte;
       composant.qte= (composant.qte! + diff) as int;
-      COMPOSANTHelper.updateComposant(composant.matricule!, composant);
     }
 
     emprunt.id=id;
     final result = await db.update(table, emprunt.toMap(), where: "id = ?", whereArgs: [id]);
-
+    //If update successful then composant is updated
+    COMPOSANTHelper.updateComposant(composant!.matricule!, composant);
     return result;
   }
 
@@ -121,6 +131,8 @@ class COMPOSANT_EMPRUNTHelper {
       Composant? composant = await COMPOSANTHelper.getItem(emprunt!['idComposant']!) ;
       if(composant!= null && emprunt!= null ){
         composant.qte= (composant.qte! + emprunt[qte]!) as int;
+
+        //If deleated successfully then composant is updated
         COMPOSANTHelper.updateComposant(composant.matricule!, composant);
       }
     } catch (err) {

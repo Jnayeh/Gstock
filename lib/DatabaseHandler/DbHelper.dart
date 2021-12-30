@@ -20,8 +20,7 @@ class DbHelper{
   Future<Database>get db async{
     if(_db == null){
       _db=await initDb();
-
-
+      _onCreate(_db!,2);
     }
 
     return _db!;
@@ -35,7 +34,7 @@ class DbHelper{
   }
 
   _onCreate(Database db, int intVersion) async {
-    await db.execute("CREATE TABLE $Table_Admin ("
+    await db.execute("CREATE TABLE IF NOT EXISTS $Table_Admin ("
         " $C_UserID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
         " $C_UserName TEXT, "
         " $C_Email TEXT,"
