@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:gstock/Screens/ComposantScreen.dart';
 
@@ -18,11 +16,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Login',
       theme: ThemeData(
-
         primarySwatch: Colors.blue,
       ),
       home: LoginForm(),
     );
   }
 }
-

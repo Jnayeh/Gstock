@@ -4,7 +4,7 @@ class Admin {
   String? email;
   String? password;
 
-  Admin( this.admin_name, this.email, this.password);
+  Admin(this.admin_name, this.email, this.password);
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{

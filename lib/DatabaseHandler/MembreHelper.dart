@@ -1,24 +1,25 @@
-
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:gstock/Model/Membre.dart';
-import 'package:sqflite/sqflite.dart' as sql ;
+import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart';
 import 'dart:io' as io;
 
-
 class MEMBREHelper {
   static get table => 'membres';
+
   static get id => 'id';
+
   static get nom => 'nom';
+
   static get email => 'email';
+
   static get telephone_1 => 'telephone_1';
+
   static get telephone_2 => 'telephone_2';
   static const String DB_Name = 'gstock.db';
 
   static Future<void> createTable(sql.Database database) async {
-
-
     await database.execute("""CREATE TABLE IF NOT EXISTS $table (
         $id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         $nom TEXT,
@@ -29,7 +30,6 @@ class MEMBREHelper {
       )
       """);
   }
-
 
   // id: the id of a Membre
 // title, description: name and description of your activity
@@ -61,26 +61,24 @@ class MEMBREHelper {
     final db = await MEMBREHelper.db();
     await createTable(db);
     return db.query(table, orderBy: id);
-
   }
 
   // Read a single Membre by id
   // The app doesn't use this method but I put here in case you want to see it
   static Future<Map<String, dynamic>?> getItem(int id) async {
     var db = await MEMBREHelper.db();
-    var res = await  db.query(table, where: "id = ?", whereArgs: [id], limit: 1);
+    var res = await db.query(table, where: "id = ?", whereArgs: [id], limit: 1);
     if (res.length > 0) {
       return res.first;
     }
   }
 
   // Update an Membre by id
-  static Future<int> updateMembre(
-      int id, Membre membre) async {
+  static Future<int> updateMembre(int id, Membre membre) async {
     final db = await MEMBREHelper.db();
-    membre.id=id;
-    final result =
-    await db.update(table, membre.toMap(), where: "id = ?", whereArgs: [id]);
+    membre.id = id;
+    final result = await db
+        .update(table, membre.toMap(), where: "id = ?", whereArgs: [id]);
     return result;
   }
 

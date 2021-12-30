@@ -568,7 +568,8 @@ class _EmpruntScreenState extends State<EmpruntScreen> {
                 color: Colors.grey[300],
                 margin: const EdgeInsets.all(10),
                 child: ListTile(
-                    title: Text(_emprunts[index]['id'].toString()+" - Membre: " +
+                    title: Text(_emprunts[index]['id'].toString() +
+                        " - Membre: " +
                         getMembreName(_emprunts[index]['idMembre']).toString()),
                     trailing: SizedBox(
                       width: 100,
@@ -595,7 +596,7 @@ class _EmpruntScreenState extends State<EmpruntScreen> {
     );
   }
 
-  // Maps the categories from database to Dropdown Items
+// Maps the categories from database to Dropdown Items
 /*  DropdownMenuItem<String> getDropDownWidget(Map<String, dynamic> map) {
     return DropdownMenuItem<String>(
       value: map['id'].toString(),

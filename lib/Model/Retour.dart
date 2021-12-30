@@ -6,8 +6,7 @@ class Retour {
   int? idMembre;
   int? idComposant;
 
-  Retour(this.dateRetour, this.etat, this.qte, this.idMembre,
-      this.idComposant);
+  Retour(this.dateRetour, this.etat, this.qte, this.idMembre, this.idComposant);
 
   Map<String, dynamic> toMap() {
     // used when inserting data to the database
@@ -20,5 +19,4 @@ class Retour {
       "idComposant": idComposant,
     };
   }
-
 }

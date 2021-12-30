@@ -1,24 +1,25 @@
-
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:gstock/Model/Composant.dart';
-import 'package:sqflite/sqflite.dart' as sql ;
+import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart';
 import 'dart:io' as io;
 
-
 class COMPOSANTHelper {
   static get table => 'composants';
+
   static get matricule => 'matricule';
+
   static get nom => 'nom';
+
   static get description => 'description';
+
   static get qte => 'qte';
+
   static get cat_id => 'idCategory';
   static const String DB_Name = 'gstock.db';
 
   static Future<void> createTable(sql.Database database) async {
-
-
     await database.execute("""CREATE TABLE IF NOT EXISTS $table (
         $matricule INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         $nom TEXT,
@@ -34,6 +35,7 @@ class COMPOSANTHelper {
   static Future _onConfigure(sql.Database db) async {
     await db.execute('PRAGMA foreign_keys = ON');
   }
+
   // id: the id of a Composant
 // title, description: name and description of your activity
 // created_at: the time that the item was created. It will be automatically handled by SQLite
@@ -41,14 +43,10 @@ class COMPOSANTHelper {
   static Future<sql.Database> db() async {
     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, DB_Name);
-    return sql.openDatabase(
-      path,
-      version: 2,
-      onCreate: (sql.Database database, int version) async {
-        await createTable(database);
-      },
-      onConfigure: _onConfigure
-    );
+    return sql.openDatabase(path, version: 2,
+        onCreate: (sql.Database database, int version) async {
+      await createTable(database);
+    }, onConfigure: _onConfigure);
   }
 
   // Create new Composant (journal)
@@ -65,14 +63,14 @@ class COMPOSANTHelper {
     final db = await COMPOSANTHelper.db();
     await createTable(db);
     return db.query(table, orderBy: matricule);
-
   }
 
   // Read a single Composant by id
   // The app doesn't use this method but I put here in case you want to see it
   static Future<Composant?>? getItem(int matricule) async {
     var db = await COMPOSANTHelper.db();
-    var res = await  db.query(table, where: "matricule = ?", whereArgs: [matricule], limit: 1);
+    var res = await db.query(table,
+        where: "matricule = ?", whereArgs: [matricule], limit: 1);
     if (res.isNotEmpty) {
       return Composant.fromMap(res.first);
     }
@@ -80,12 +78,11 @@ class COMPOSANTHelper {
   }
 
   // Update a Composant by id
-  static Future<int> updateComposant(
-      int matricule, Composant composant) async {
+  static Future<int> updateComposant(int matricule, Composant composant) async {
     final db = await COMPOSANTHelper.db();
-    composant.matricule=matricule;
-    final result =
-    await db.update(table, composant.toMap(), where: "matricule = ?", whereArgs: [matricule]);
+    composant.matricule = matricule;
+    final result = await db.update(table, composant.toMap(),
+        where: "matricule = ?", whereArgs: [matricule]);
     return result;
   }
 

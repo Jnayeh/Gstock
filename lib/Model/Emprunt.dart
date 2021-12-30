@@ -2,7 +2,8 @@ class Emprunt {
   int? id;
   int? idMembre;
 
-  Emprunt( this.idMembre);
+  Emprunt(this.idMembre);
+
   Emprunt.id(this.id, this.idMembre);
 
   Map<String, dynamic> toMap() {
@@ -12,6 +13,4 @@ class Emprunt {
       "idMembre": idMembre,
     };
   }
-
-
 }

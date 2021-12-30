@@ -284,8 +284,9 @@ class _ComposantScreenState extends State<ComposantScreen> {
                 color: Colors.grey[300],
                 margin: const EdgeInsets.all(10),
                 child: ListTile(
-                    title: Text(_composants[index]['qte'].toString() +" " +
-                        getCategorie(_composants[index]['idCategory'])+
+                    title: Text(_composants[index]['qte'].toString() +
+                        " " +
+                        getCategorie(_composants[index]['idCategory']) +
                         " " +
                         _composants[index]['nom']),
                     subtitle: Text(_composants[index]['description']),

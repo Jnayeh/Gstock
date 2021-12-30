@@ -17,6 +17,7 @@ class _CategorieScreenState extends State<CategorieScreen> {
   List<Map<String, dynamic>> _categories = [];
 
   bool _isLoading = true;
+
   // This function is used to fetch all data from the database
   void _refreshCategories() async {
     final data = await CATEGORYHelper.getAll();
@@ -38,8 +39,9 @@ class _CategorieScreenState extends State<CategorieScreen> {
       Navigator.of(context).pop();
     }
   }
+
   // Error Dialog
-  DialogError(){
+  DialogError() {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -62,7 +64,6 @@ class _CategorieScreenState extends State<CategorieScreen> {
       // Close the bottom sheet
       Navigator.of(context).pop();
     }
-
   }
 
   // Delete a Categorie
@@ -135,8 +136,6 @@ class _CategorieScreenState extends State<CategorieScreen> {
 
                         // Clear the text fields
                         _categorieController.text = '';
-
-
                       },
                       child: Text(id == null ? 'Create New' : 'Update'),
                     )

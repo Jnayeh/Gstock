@@ -1,21 +1,20 @@
-
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:gstock/Model/Categorie.dart';
 import 'package:gstock/Model/Emprunt.dart';
-import 'package:sqflite/sqflite.dart' as sql ;
+import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart';
 import 'dart:io' as io;
 
-
 class EMPRUNTHelper {
   static get table => 'emprunts';
+
   static get id => 'id';
+
   static get idMembre => 'idMembre';
   static const String DB_Name = 'gstock.db';
 
   static Future<void> createTable(sql.Database database) async {
-
     await database.execute("""CREATE TABLE IF NOT EXISTS $table (
         $id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         $idMembre INTEGER,
@@ -36,14 +35,10 @@ class EMPRUNTHelper {
   static Future<sql.Database> db() async {
     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, DB_Name);
-    return sql.openDatabase(
-      path,
-      version: 2,
-      onCreate: (sql.Database database, int version) async {
-        await createTable(database);
-      },
-      onConfigure: _onConfigure
-    );
+    return sql.openDatabase(path, version: 2,
+        onCreate: (sql.Database database, int version) async {
+      await createTable(database);
+    }, onConfigure: _onConfigure);
   }
 
   // Create new emprunt
@@ -57,30 +52,27 @@ class EMPRUNTHelper {
 
   // Read all emprunts
   static Future<List<Map<String, dynamic>>> getAll() async {
-
     final db = await EMPRUNTHelper.db();
     await createTable(db);
     return db.query(table, orderBy: id);
-
   }
 
   // Read a single emprunt by id
   // The app doesn't use this method but I put here in case you want to see it
   static Future<Map<String, dynamic>?> getOne(int id) async {
     var db = await EMPRUNTHelper.db();
-    var res = await  db.query(table, where: "id = ?", whereArgs: [id], limit: 1);
+    var res = await db.query(table, where: "id = ?", whereArgs: [id], limit: 1);
     if (res.isNotEmpty) {
       return res.first;
     }
   }
 
   // Update an emprunt by id
-  static Future<int> update(
-      int id, Emprunt emprunt) async {
+  static Future<int> update(int id, Emprunt emprunt) async {
     final db = await EMPRUNTHelper.db();
-    emprunt.id=id;
-    final result =
-    await db.update(table, emprunt.toMap(), where: "id = ?", whereArgs: [id]);
+    emprunt.id = id;
+    final result = await db
+        .update(table, emprunt.toMap(), where: "id = ?", whereArgs: [id]);
     return result;
   }
 

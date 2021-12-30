@@ -1,26 +1,24 @@
-
 import 'package:path_provider/path_provider.dart';
 import 'package:gstock/Model/Admin.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'dart:io' as io;
 
-class DbHelper{
-  static Database?  _db;
+class DbHelper {
+  static Database? _db;
   static const String DB_Name = 'gstock.db';
   static const String Table_Admin = 'admin';
   static const int Version = 1;
-
 
   static const String C_UserID = 'admin_id';
   static const String C_UserName = 'admin_name';
   static const String C_Email = 'email';
   static const String C_Password = 'password';
 
-  Future<Database>get db async{
-    if(_db == null){
-      _db=await initDb();
-      _onCreate(_db!,2);
+  Future<Database> get db async {
+    if (_db == null) {
+      _db = await initDb();
+      _onCreate(_db!, 2);
     }
 
     return _db!;
@@ -44,7 +42,7 @@ class DbHelper{
   Future<Admin> saveData(Admin user) async {
     var dbClient = await db;
     user.admin_id = (await dbClient.insert(Table_Admin, user.toMap())) as int;
-    return user ;
+    return user;
   }
 
   Future<Admin?> getLoginUser(String userEmail, String password) async {
@@ -59,6 +57,4 @@ class DbHelper{
 
     return null;
   }
-
-
 }

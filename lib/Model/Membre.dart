@@ -17,5 +17,4 @@ class Membre {
       "telephone_2": tel_2,
     };
   }
-
 }

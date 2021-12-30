@@ -4,7 +4,7 @@ class ComposantEmprunt {
   int? idEmprunt;
   int? qte;
 
-  ComposantEmprunt( this.idComposant, this.idEmprunt, this.qte);
+  ComposantEmprunt(this.idComposant, this.idEmprunt, this.qte);
 
   Map<String, dynamic> toMap() {
     // used when inserting data to the database
@@ -15,6 +15,4 @@ class ComposantEmprunt {
       "qte": qte,
     };
   }
-
-
 }

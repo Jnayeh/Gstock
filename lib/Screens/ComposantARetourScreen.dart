@@ -50,7 +50,6 @@ class _ComposantARetourScreenState extends State<ComposantARetourScreen> {
       _emprunt_composants = data;
       _isLoading = false;
     });
-
   }
 
   // fetch all Membres from the database
@@ -101,6 +100,7 @@ class _ComposantARetourScreenState extends State<ComposantARetourScreen> {
     });
     return cmp;
   }
+
   // Gets categorie's value using the ID
   String getCategorie(id) {
     var cat = '';
@@ -133,7 +133,8 @@ class _ComposantARetourScreenState extends State<ComposantARetourScreen> {
           _emprunt_composants.firstWhere((element) => element['id'] == id);
       _existingComposant = _composants.firstWhere((element) =>
           element['matricule'] == _existingEmpruntComposant['idComposant']);
-      _existingMembre = getMembre(getMembreID(_existingEmpruntComposant['idEmprunt']));
+      _existingMembre =
+          getMembre(getMembreID(_existingEmpruntComposant['idEmprunt']));
     }
 
     showModalBottomSheet(
@@ -149,44 +150,71 @@ class _ComposantARetourScreenState extends State<ComposantARetourScreen> {
                       width: double.infinity,
                       height: 350,
                       child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Composant détails: ",style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold),),
-                            Wrap(
-                              spacing: 5,
-                              children: [
-                                Chip( label: Text("Nom Compsant: "+_existingComposant['nom'].toString()),),
-
-                                Chip( label: Text("Description: "+_existingComposant['description']),),
-
-                                Chip( label: Text("Category: "+getCategorie(_existingComposant['idCategory'])),),
-
-                                Chip( label: Text("Quantity: "+_existingEmpruntComposant['qte'].toString()),),
-                              ],
-                            ),
-
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Text("Membre détails: ",style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold),),
-                            Wrap(
-                              spacing: 5,
-                              children: [
-                                Chip( label: Text("Nom: "+_existingMembre['nom'].toString()),),
-
-                                Chip( label: Text("Email: "+_existingMembre['email'].toString()),),
-
-                                Chip( label: Text("Premier numéro: "+_existingMembre['telephone_1'].toString()),),
-
-                                _existingMembre['telephone_2']!=null ? Chip( label: Text("Deuxième numéro:: "+_existingMembre['telephone_2'].toString()),) : Text(""),
-
-
-                              ],
-                            ),
-                          ],
-                        )
-                      ),
+                          child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Composant détails: ",
+                            style: TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.bold),
+                          ),
+                          Wrap(
+                            spacing: 5,
+                            children: [
+                              Chip(
+                                label: Text("Nom Compsant: " +
+                                    _existingComposant['nom'].toString()),
+                              ),
+                              Chip(
+                                label: Text("Description: " +
+                                    _existingComposant['description']),
+                              ),
+                              Chip(
+                                label: Text("Category: " +
+                                    getCategorie(
+                                        _existingComposant['idCategory'])),
+                              ),
+                              Chip(
+                                label: Text("Quantity: " +
+                                    _existingEmpruntComposant['qte']
+                                        .toString()),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            "Membre détails: ",
+                            style: TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.bold),
+                          ),
+                          Wrap(
+                            spacing: 5,
+                            children: [
+                              Chip(
+                                label: Text("Nom: " +
+                                    _existingMembre['nom'].toString()),
+                              ),
+                              Chip(
+                                label: Text("Email: " +
+                                    _existingMembre['email'].toString()),
+                              ),
+                              Chip(
+                                label: Text("Premier numéro: " +
+                                    _existingMembre['telephone_1'].toString()),
+                              ),
+                              _existingMembre['telephone_2'] != null
+                                  ? Chip(
+                                      label: Text("Deuxième numéro:: " +
+                                          _existingMembre['telephone_2']
+                                              .toString()),
+                                    )
+                                  : Text(""),
+                            ],
+                          ),
+                        ],
+                      )),
                     ));
           },
         );
@@ -216,11 +244,16 @@ class _ComposantARetourScreenState extends State<ComposantARetourScreen> {
                 color: Colors.grey[300],
                 margin: const EdgeInsets.all(10),
                 child: ListTile(
-                    title: Text(_emprunt_composants[index]['qte'].toString() +" " +
-                        getCategorie(getComposant(_emprunt_composants[index]['idComposant'])['idCategory'])+
+                    title: Text(_emprunt_composants[index]['qte'].toString() +
                         " " +
-                        getComposant(_emprunt_composants[index]['idComposant'])['nom']),
-                    subtitle: Text("A retouner par:  "+ getMembre(getMembreID(_emprunt_composants[index]['idEmprunt']))['nom']),
+                        getCategorie(getComposant(_emprunt_composants[index]
+                            ['idComposant'])['idCategory']) +
+                        " " +
+                        getComposant(
+                            _emprunt_composants[index]['idComposant'])['nom']),
+                    subtitle: Text("A retouner par:  " +
+                        getMembre(getMembreID(
+                            _emprunt_composants[index]['idEmprunt']))['nom']),
                     trailing: SizedBox(
                       width: 50,
                       child: Row(
@@ -237,6 +270,4 @@ class _ComposantARetourScreenState extends State<ComposantARetourScreen> {
             ),
     );
   }
-
-
 }

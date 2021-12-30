@@ -17,6 +17,7 @@ class _MembreScreenState extends State<MembreScreen> {
   List<Map<String, dynamic>> _membres = [];
 
   bool _isLoading = true;
+
   // This function is used to fetch all data from the database
   void _refreshMembres() async {
     final data = await MEMBREHelper.getItems();
