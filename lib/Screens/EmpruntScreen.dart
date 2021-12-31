@@ -141,7 +141,7 @@ class _EmpruntScreenState extends State<EmpruntScreen> {
   void _deleteEmprunt(int id) async {
     await EMPRUNTHelper.delete(id);
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text('Successfully deleted a composant!'),
+      content: Text('Successfully deleted an emprunt!'),
     ));
     _refreshEmprunts();
   }

@@ -19,7 +19,7 @@ class EMPRUNTHelper {
         $id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         $idMembre INTEGER,
         createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY ($idMembre) REFERENCES membres (id) ON DELETE NO ACTION ON UPDATE NO ACTION
+        FOREIGN KEY ($idMembre) REFERENCES membres (id) ON DELETE CASCADE
       )
       """);
   }

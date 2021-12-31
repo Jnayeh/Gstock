@@ -46,6 +46,7 @@ class _ComposantARetourScreenState extends State<ComposantARetourScreen> {
   // get all Emprunt_Composants from the database
   Future<void> _getEmpruntComposants() async {
     final data = await COMPOSANT_EMPRUNTHelper.getAll();
+    print (data);
     setState(() {
       _emprunt_composants = data;
       _isLoading = false;
@@ -249,7 +250,7 @@ class _ComposantARetourScreenState extends State<ComposantARetourScreen> {
                             _emprunt_composants[index]['idComposant'])['nom']),
                     subtitle: Text("A retouner par:  " +
                         getMembre(getMembreID(
-                            _emprunt_composants[index]['idEmprunt']))['nom']),
+                            _emprunt_composants[index]['idEmprunt']))['nom'].toString()),
                     trailing: SizedBox(
                       width: 50,
                       child: Row(

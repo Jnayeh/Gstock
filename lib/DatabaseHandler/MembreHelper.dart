@@ -31,6 +31,9 @@ class MEMBREHelper {
       """);
   }
 
+  static Future _onConfigure(sql.Database db) async {
+    await db.execute('PRAGMA foreign_keys = ON');
+  }
   // id: the id of a Membre
 // title, description: name and description of your activity
 // created_at: the time that the item was created. It will be automatically handled by SQLite
@@ -44,6 +47,7 @@ class MEMBREHelper {
       onCreate: (sql.Database database, int version) async {
         await createTable(database);
       },
+      onConfigure: _onConfigure,
     );
   }
 
