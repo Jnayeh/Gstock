@@ -336,7 +336,7 @@ class _ComposantScreenState extends State<ComposantScreen> {
                       getCategorie(_composants[index]['idCategory']) +
                       " " +
                       _composants[index]['nom']),
-                  subtitle: Text("Aquisition: "+_composants[index]['createdAt']+"\n \nDescription: "+_composants[index]['description']),
+                  subtitle: Text("Date aquisition: "+_composants[index]['createdAt']+"\n \nDescription: "+_composants[index]['description']),
                   trailing: SizedBox(
                     width: 100,
                     child: Center(
