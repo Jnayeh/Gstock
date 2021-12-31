@@ -158,6 +158,10 @@ class MyDrawer extends StatelessWidget {
               Icons.print,
               color: Colors.blueAccent,
             ),
+            trailing: Icon(
+              Icons.arrow_right,
+              color: Colors.grey,
+            ),
             onTap: () {
               Navigator.push(
                   context, MaterialPageRoute(builder: (_) => RetourScrean()));
