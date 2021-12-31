@@ -33,13 +33,10 @@ class CATEGORYHelper {
   static Future<sql.Database> db() async {
     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, DB_Name);
-    return sql.openDatabase(
-      path,
-      version: 2,
-      onCreate: (sql.Database database, int version) async {
-        await createTable(database);
-      },onConfigure: _onConfigure
-    );
+    return sql.openDatabase(path, version: 2,
+        onCreate: (sql.Database database, int version) async {
+      await createTable(database);
+    }, onConfigure: _onConfigure);
   }
 
   // Create new category
