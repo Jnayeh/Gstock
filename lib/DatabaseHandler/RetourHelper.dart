@@ -60,7 +60,7 @@ class RetourHelper {
   static Future<List<Map<String, dynamic>>> getItems() async {
     final db = await RetourHelper.db();
     await createTable(db);
-    return db.query(table, orderBy: id);
+    return db.query(table, orderBy:  id+' DESC');
   }
 
   // Read a single Composant by id

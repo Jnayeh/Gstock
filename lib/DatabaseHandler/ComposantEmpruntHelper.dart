@@ -53,15 +53,15 @@ class COMPOSANT_EMPRUNTHelper {
   static Future<List<Map<String, dynamic>>> getAll() async {
     final db = await COMPOSANT_EMPRUNTHelper.db();
     await createTable(db);
-    return db.query(table, orderBy: id);
+    return db.query(table, orderBy:  id+' DESC');
   }
 
   // Read all emprunts By ID
-  static Future<List<Map<String, dynamic>>> getAllByID(int id) async {
+  static Future<List<Map<String, dynamic>>> getAllByID(int idEmprunt) async {
     final db = await COMPOSANT_EMPRUNTHelper.db();
     /*db.execute("DROP TABLE $table;");*/
     await createTable(db);
-    return db.query(table, where: "idEmprunt = ?", whereArgs: [id]);
+    return db.query(table, where: "idEmprunt = ?", whereArgs: [idEmprunt], orderBy:  id+' DESC');
   }
 
   // Read all emprunts By ID
