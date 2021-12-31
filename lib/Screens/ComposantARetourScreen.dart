@@ -149,7 +149,7 @@ class _ComposantARetourScreenState extends State<ComposantARetourScreen> {
                 builder: (BuildContext context, setState) => Container(
                       padding: const EdgeInsets.all(15),
                       width: double.infinity,
-                      height: 350,
+                      height: 300,
                       child: SingleChildScrollView(
                           child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -165,10 +165,6 @@ class _ComposantARetourScreenState extends State<ComposantARetourScreen> {
                               Chip(
                                 label: Text("Nom Compsant: " +
                                     _existingComposant['nom'].toString()),
-                              ),
-                              Chip(
-                                label: Text("Description: " +
-                                    _existingComposant['description']),
                               ),
                               Chip(
                                 label: Text("Category: " +

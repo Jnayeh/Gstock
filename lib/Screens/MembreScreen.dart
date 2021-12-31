@@ -161,9 +161,9 @@ class _MembreScreenState extends State<MembreScreen> {
         context: context,
         elevation: 5,
         builder: (_) => Container(
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
               width: double.infinity,
-              height: 350,
+              height: 360,
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,

@@ -99,9 +99,9 @@ class _CategorieScreenState extends State<CategorieScreen> {
         context: context,
         elevation: 5,
         builder: (_) => Container(
-              padding: const EdgeInsets.all(15),
+              padding: const EdgeInsets.all(10),
               width: double.infinity,
-              height: 170,
+              height: 150,
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,

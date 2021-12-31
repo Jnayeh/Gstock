@@ -447,9 +447,9 @@ class _EmpruntScreenState extends State<EmpruntScreen> {
           builder: (BuildContext context) {
             return StatefulBuilder(
                 builder: (BuildContext context, setState) => Container(
-                      padding: const EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(10),
                       width: double.infinity,
-                      height: 330,
+                      height: 300,
                       child: SingleChildScrollView(
                         child: Column(
                           mainAxisSize: MainAxisSize.min,

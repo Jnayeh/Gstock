@@ -339,19 +339,21 @@ class _ComposantScreenState extends State<ComposantScreen> {
                   subtitle: Text("Aquisition: "+_composants[index]['createdAt']+"\n \nDescription: "+_composants[index]['description']),
                   trailing: SizedBox(
                     width: 100,
-                    child: Row(
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.edit),
-                          onPressed: () =>
-                              _showForm(_composants[index]['matricule']),
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () =>
-                              _deleteItem(_composants[index]['matricule']),
-                        ),
-                      ],
+                    child: Center(
+                      child: Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.edit),
+                            onPressed: () =>
+                                _showForm(_composants[index]['matricule']),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () =>
+                                _deleteItem(_composants[index]['matricule']),
+                          ),
+                        ],
+                      ),
                     ),
                   )),
             ),
