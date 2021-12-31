@@ -6,6 +6,8 @@ import 'package:gstock/Model/Admin.dart';
 import 'package:gstock/Screens/LoginForm.dart';
 import 'package:toast/toast.dart';
 
+import 'HomeForm.dart';
+
 class SignupForm extends StatefulWidget {
   const SignupForm({Key? key}) : super(key: key);
 
@@ -41,6 +43,10 @@ class _SignupFormState extends State<SignupForm> {
       Admin uModel = Admin(uname, email, passwd);
       await dbHelper.saveData(uModel).then((userData) {
         alertDialog(context, 'Successfully saved');
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (_) => HomeForm()),
+                (Route<dynamic> route) => false);
       }).catchError((error) {
         print(error);
         alertDialog(context, 'Error Data Fail');
