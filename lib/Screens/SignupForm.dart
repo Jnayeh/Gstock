@@ -36,9 +36,9 @@ class _SignupFormState extends State<SignupForm> {
     String passwd = _conPassword.text;
     String cpasswd = _conCPassword.text;
     if (_formKey.currentState!.validate()) {
-      /* if (passwd != cpasswd) {
+       if (passwd != cpasswd) {
       alertDialog(context, 'Password Mismatch');
-    }else{*/
+    }else{
       _formKey.currentState!.save();
       Admin uModel = Admin(uname, email, passwd);
       await dbHelper.saveData(uModel).then((userData) {
@@ -51,6 +51,7 @@ class _SignupFormState extends State<SignupForm> {
         print(error);
         alertDialog(context, 'Error Data Fail');
       });
+    }
     }
 
     /*if (_formKey.currentState.validate()) {
