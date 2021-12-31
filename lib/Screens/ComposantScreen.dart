@@ -1,5 +1,6 @@
 // main.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_search_bar/flutter_search_bar.dart';
 import 'package:gstock/DatabaseHandler/CategoryHelper.dart';
 import 'package:gstock/DatabaseHandler/ComposantHelper.dart';
 import 'package:gstock/Model/Composant.dart';
@@ -16,6 +17,7 @@ class ComposantScreen extends StatefulWidget {
 class _ComposantScreenState extends State<ComposantScreen> {
   // All composants
   List<Map<String, dynamic>> _composants = [];
+  List<Map<String, dynamic>> _savedComposants = [];
   List<Map<String, dynamic>> _categories = [];
   String _selectedCategorie = "Select categorie";
   bool _isLoading = true;
@@ -25,8 +27,25 @@ class _ComposantScreenState extends State<ComposantScreen> {
     final data = await COMPOSANTHelper.getItems();
     setState(() {
       _composants = data;
+      _savedComposants = data;
       _isLoading = false;
     });
+  }
+
+  void _search(String value) {
+    List<Map<String, dynamic>> _searchResult=[];
+    _composants=_savedComposants;
+      if (value.length>0){
+        _composants.forEach((composant) {
+          if (composant['nom'].toString().toUpperCase().contains(value.toUpperCase())){
+            _searchResult.add(composant);
+          }
+        });
+        setState(() {
+          _composants=_searchResult;
+        });
+      }
+
   }
 
   // fetch all categories from the database
@@ -125,6 +144,7 @@ class _ComposantScreenState extends State<ComposantScreen> {
   @override
   void initState() {
     super.initState();
+    _initializeSearchBar();
     COMPOSANTHelper.db();
     _refreshComposants(); // Loading the list when the app starts
     _getCategories();
@@ -142,7 +162,7 @@ class _ComposantScreenState extends State<ComposantScreen> {
       // id == null -> create new item
       // id != null -> update an existing item
       final existingComposant =
-          _composants.firstWhere((element) => element['matricule'] == id);
+      _composants.firstWhere((element) => element['matricule'] == id);
       _nomController.text = existingComposant['nom'];
       _descriptionController.text = existingComposant['description'];
       _quantityController.text = existingComposant['qte'].toString();
@@ -159,7 +179,8 @@ class _ComposantScreenState extends State<ComposantScreen> {
           onClosing: () {},
           builder: (BuildContext context) {
             return StatefulBuilder(
-                builder: (BuildContext context, setState) => Container(
+                builder: (BuildContext context, setState) =>
+                    Container(
                       padding: const EdgeInsets.all(15),
                       width: double.infinity,
                       height: 350,
@@ -174,7 +195,7 @@ class _ComposantScreenState extends State<ComposantScreen> {
                             TextField(
                               controller: _nomController,
                               decoration:
-                                  const InputDecoration(hintText: 'Nom'),
+                              const InputDecoration(hintText: 'Nom'),
                             ),
                             const SizedBox(
                               height: 10,
@@ -191,7 +212,7 @@ class _ComposantScreenState extends State<ComposantScreen> {
                             TextField(
                                 controller: _quantityController,
                                 decoration:
-                                    const InputDecoration(hintText: 'Quantité'),
+                                const InputDecoration(hintText: 'Quantité'),
                                 keyboardType: TextInputType.number),
                             const SizedBox(
                               height: 20,
@@ -229,10 +250,11 @@ class _ComposantScreenState extends State<ComposantScreen> {
                             ElevatedButton(
                               style: ButtonStyle(
                                   shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16.0),
-                              ))),
+                                        borderRadius: BorderRadius.circular(
+                                            16.0),
+                                      ))),
                               onPressed: () async {
                                 // Save new composant
                                 if (id == null) {
@@ -264,55 +286,82 @@ class _ComposantScreenState extends State<ComposantScreen> {
     });
   }
 
+  var searchBar;
+
+  AppBar buildAppBar(BuildContext context) {
+    return new AppBar(
+        title: new Text('Composants'),
+        actions: [searchBar.getSearchAction(context)]
+    );
+  }
+
+  _initializeSearchBar() {
+    searchBar = SearchBar(
+        inBar: false,
+        setState: setState,
+        onChanged: (value) {
+          _search(value);
+        },
+        onClosed:() {
+          _composants=_savedComposants;
+        },
+        onCleared: () {
+          _composants=_savedComposants;
+        },
+        buildDefaultAppBar: buildAppBar
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: MyDrawer(),
-      appBar: AppBar(
-        title: const Text('Composants'),
-      ),
+      appBar: searchBar.build(context),
       body: _isLoading
           ? const Center(
-              child: CircularProgressIndicator(),
-            )
+        child: CircularProgressIndicator(),
+      )
           : ListView.builder(
-              itemCount: _composants.length,
-              itemBuilder: (context, index) => Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(13),
-                ),
-                color: Colors.grey[300],
-                margin: const EdgeInsets.all(10),
-                child: ListTile(
-                    title: Text(_composants[index]['qte'].toString() +
-                        " " +
-                        getCategorie(_composants[index]['idCategory']) +
-                        " " +
-                        _composants[index]['nom']),
-                    subtitle: Text(_composants[index]['description']),
-                    trailing: SizedBox(
-                      width: 100,
-                      child: Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.edit),
-                            onPressed: () =>
-                                _showForm(_composants[index]['matricule']),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () =>
-                                _deleteItem(_composants[index]['matricule']),
-                          ),
-                        ],
-                      ),
-                    )),
+        itemCount: _composants.length,
+        itemBuilder: (context, index) =>
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(13),
               ),
+              color: Colors.grey[300],
+              margin: const EdgeInsets.all(10),
+              child: ListTile(
+                  title: Text(_composants[index]['qte'].toString() +
+                      " " +
+                      getCategorie(_composants[index]['idCategory']) +
+                      " " +
+                      _composants[index]['nom']),
+                  subtitle: Text("Aquisition: "+_composants[index]['createdAt']+"\n \nDescription: "+_composants[index]['description']),
+                  trailing: SizedBox(
+                    width: 100,
+                    child: Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.edit),
+                          onPressed: () =>
+                              _showForm(_composants[index]['matricule']),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.delete),
+                          onPressed: () =>
+                              _deleteItem(_composants[index]['matricule']),
+                        ),
+                      ],
+                    ),
+                  )),
             ),
+      ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () => _showForm(null),
       ),
     );
   }
+
+
 }
