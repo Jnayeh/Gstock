@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gstock/Screens/ComposantScreen.dart';
-import 'package:gstock/Screens/MembreScreen.dart';
 
 import 'Screens/LoginForm.dart';
 
@@ -19,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MembreScreen(),
+      home: LoginForm(),
     );
   }
 }
