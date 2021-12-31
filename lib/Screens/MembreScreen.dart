@@ -123,7 +123,7 @@ class _MembreScreenState extends State<MembreScreen> {
     String pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(value))
+    if (value.length != 0 && !regex.hasMatch(value))
       return 'Enter Valid Email';
     else
       return '';
@@ -161,7 +161,7 @@ class _MembreScreenState extends State<MembreScreen> {
         context: context,
         elevation: 5,
         builder: (_) => Container(
-              padding: const EdgeInsets.all(15),
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               width: double.infinity,
               height: 350,
               child: SingleChildScrollView(
@@ -223,25 +223,30 @@ class _MembreScreenState extends State<MembreScreen> {
                     const SizedBox(
                       height: 20,
                     ),
-                    ElevatedButton(
-                      style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16.0),
-                      ))),
-                      onPressed: () async {
-                        // Save new membre
-                        if (id == null) {
-                          await _addMembre();
-                        }
+                    Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          ElevatedButton(
+                            style: ButtonStyle(
+                                shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                            ))),
+                            onPressed: () async {
+                              // Save new membre
+                              if (id == null) {
+                                await _addMembre();
+                              }
 
-                        if (id != null) {
-                          await _updateMembre(id);
-                        }
-                      },
-                      child: Text(id == null ? 'Create New' : 'Update'),
-                    )
+                              if (id != null) {
+                                await _updateMembre(id);
+                              }
+                            },
+                            child: Text(id == null ? 'Create New' : 'Update'),
+                          )
+                        ]),
                   ],
                 ),
               ),

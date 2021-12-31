@@ -197,10 +197,6 @@ class _ComposantARetourScreenState extends State<ComposantARetourScreen> {
                                     _existingMembre['nom'].toString()),
                               ),
                               Chip(
-                                label: Text("Email: " +
-                                    _existingMembre['email'].toString()),
-                              ),
-                              Chip(
                                 label: Text("Premier numéro: " +
                                     _existingMembre['telephone_1'].toString()),
                               ),
